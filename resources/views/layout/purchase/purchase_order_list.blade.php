@@ -59,7 +59,8 @@
                                                         <button type="button" class="btn btn-primary btn-sm" id="delete_po{{$counter}}" name="delete_po{{$counter}}" value="{{$data->purchase_order_id}}" onclick="delete_po({{$data->purchase_order_id}})">Delete</button>
                                                     @endif
                                                     @if($data->receiving_purchase_order_id)
-                                                        <button type="button" class="btn btn-primary btn-sm" id="receive_view{{$counter}}" name="receive_view{{$counter}}" value="{{$data->purchase_order_id}}" onclick="receive_view({{$data->purchase_order_id}})">Payment</button>
+{{--                                                        <button type="button" class="btn btn-primary btn-sm" id="receive_view{{$counter}}" name="receive_view{{$counter}}" value="{{$data->purchase_order_id}}" onclick="receive_view({{$data->purchase_order_id}})">Payment</button>--}}
+                                                        <button type="button" class="btn btn-primary btn-sm" id="receive_view{{$counter}}" name="receive_view{{$counter}}" value="{{$data->purchase_order_id}}" onclick="receive_view({{$data->purchase_order_id}})">Voucher</button>
                                                     @endif
                                                 </div>
 

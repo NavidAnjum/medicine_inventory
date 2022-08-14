@@ -15,8 +15,8 @@
                 <th>PUP(B)</th>
                 <th>Price</th>
                 <th>Status</th>
-                <th>Add to Pay</th>
-{{--                <th>Pay Amount</th>--}}
+                <th>Add to Voucher</th>
+                {{--                <th>Pay Amount</th>--}}
             </tr>
             </thead>
             <tbody>
@@ -37,11 +37,11 @@
                     <td>{{$data->status}}</td>
                     <td>
                         <label><input type="checkbox" name="payment_check[]" id="payment_check{{$counter}}" value="{{($data->per_unit_price * $data->quantity)}}?fs?{{$data->receiving_id}}"
-                                      onclick="calculation_total_amount_for_payment();"> </label>
+                                      onclick="calculation_total_amount_for_voucher();"> </label>
                     </td>
-{{--                    <td>--}}
-{{--                        <label><input type="number" name="pay{{$counter}}" id="pay{{$counter}}" value="{{ ($data->per_unit_price * $data->quantity) }}" onchange="change_calculation_total_amount_for_payment_using_pay_input();"> </label>--}}
-{{--                    </td>--}}
+                    {{--                    <td>--}}
+                    {{--                        <label><input type="number" name="pay{{$counter}}" id="pay{{$counter}}" value="{{ ($data->per_unit_price * $data->quantity) }}" onchange="change_calculation_total_amount_for_payment_using_pay_input();"> </label>--}}
+                    {{--                    </td>--}}
 
                     <input type="hidden" id="purchase_order_id{{$counter}}" name="purchase_order_id{{$counter}}" value="{{$data->purchase_order_id}}">
                     <input type="hidden" id="receiving_id{{$counter}}" name="receiving_id{{$counter}}" value="{{$data->receiving_id}}">

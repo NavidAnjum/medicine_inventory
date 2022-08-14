@@ -17,6 +17,8 @@ use App\Http\Controllers\RecevingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Voucher;
+use App\Http\Controllers\PaymentUpdateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,6 +137,7 @@ Route::get('/login',function (){
         Route::get('purchase_order_list',[NewPurchaseController::class,'get_all_data']);
         Route::get('purchase_order_delete',[NewPurchaseController::class,'delete_purchase_order']);
 
+
         //receive portion
         Route::get('po_receiving', [RecevingController::class,'po_receiving']);
         Route::get('po_details_for_receive', [RecevingController::class,'po_details']);
@@ -147,12 +150,27 @@ Route::get('/login',function (){
         Route::post('item_stock_against_lot', [StockController::class,'item_wise_lot']);
         Route::get('purchase_order_receive_view', [StockController::class,'purchase_order_receive']);
 
+
+        //voucher for payment
+        Route::get('create_voucher', [Voucher::class,'purchase_wise_receive_list_which_not_make_voucher']);
+        Route::post('details_info_for_voucher', [Voucher::class,'details_for_voucher']);
+        Route::post('details_info_for_purchase_order_wise_voucher', [Voucher::class,'details_for_purchase_order_wise_voucher']);
+        Route::post('adjustment_amount_form_receive', [Voucher::class,'adjustment_amount_form']);
+        Route::post('voucher_save_to_database', [Voucher::class,'voucher_to_database']);
+        Route::get('all_voucher_list', [Voucher::class,'all_voucher_list']);
+        Route::post('voucher_view', [Voucher::class,'voucher_view_details']);
+
+
         //payment portion
         Route::get('make_payment', [PaymentController::class,'make_payment']);
         Route::post('details_info_for_payment', [PaymentController::class,'details_for_payment']);
         Route::post('details_info_for_purchase_order_wise_payment', [PaymentController::class,'details_for_purchase_order_wise_payment']);
         Route::post('adjustment_amount_form_receive', [PaymentController::class,'adjustment_amount_form']);
         Route::post('payment_save_to_database', [PaymentController::class,'payment_to_database']);
+
+        //update payment option
+        Route::get('vouchers_for_payment', [PaymentUpdateController::class,'vouchers_for_payment']);
+        Route::post('supplier_wise_all_data', [PaymentUpdateController::class,'supplier_wise_all_data']);
 
 });
 

@@ -7,14 +7,14 @@
 @section('dashboard_main_content')
     <div id="full_content">
         <div class="col-sm-12 col-auto">
-            <h3 class="page-title">Payment</h3>
+            <h3 class="page-title">Voucher</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="">Dashboard</a></li>
-                <li class="breadcrumb-item active">Make Payment</li>
+                <li class="breadcrumb-item active">Make Voucher</li>
             </ul>
         </div>
 
-        <form action="{{'payment_save_to_database'}}" method="post">
+        <form action="{{'voucher_save_to_database'}}" method="post">
             @csrf
             <div class="row text-center">
                 <div class="col-md-4"></div>
@@ -59,7 +59,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "details_info_for_payment",
+                url: "details_info_for_voucher",
                 type: "post",
                 data: {_token: _token, supplier_id:supplier},
                 success: function(data)
@@ -103,7 +103,7 @@
             });
         }
 
-        function calculation_total_amount_for_payment()
+        function calculation_total_amount_for_voucher()
         {
             var checkboxes = document.querySelectorAll('input[name="payment_check[]"]:checked'), values = [];
             Array.prototype.forEach.call(checkboxes, function(el) {
@@ -146,32 +146,31 @@
             var percentage = (parseInt(discount) * 100) / parseInt(total_amount);
             document.getElementById("discount_percent").innerHTML = percentage.toFixed(2)+"%";
             document.getElementById("payment_amount").value = total_amount - discount;
-
         }
 
         function change_calculation_total_amount_for_payment_using_pay_input()
         {
-           var total_row = parseInt(document.getElementById("total_counter").value) - 1;
-           var discount_amount = parseInt(document.getElementById("discount_amount").value);
-           var amount = 0;
-           var id = '';
-           var totalattr = '';
-           // for (var i = 1; i <= total_row;i++ )
-           // {
-               $('input:checkbox[id^="payment_check"]:checked').each(function()
-               {
-                   totalattr = $(this).attr("id");
-                   var id = totalattr[totalattr.length -1];
-                   //alert($(this).attr("id"));
-                   //alert(id);
-                   amount += parseFloat(document.getElementById("pay"+id).value);
-               });
-               //alert(amount);
-               // if ($('input#payment_check'+i).is(':checked'))
-               // {
-               //     amount += parseFloat(document.getElementById("pay"+i).value);
-               // }
-           // }
+            var total_row = parseInt(document.getElementById("total_counter").value) - 1;
+            var discount_amount = parseInt(document.getElementById("discount_amount").value);
+            var amount = 0;
+            var id = '';
+            var totalattr = '';
+            // for (var i = 1; i <= total_row;i++ )
+            // {
+            $('input:checkbox[id^="payment_check"]:checked').each(function()
+            {
+                totalattr = $(this).attr("id");
+                var id = totalattr[totalattr.length -1];
+                //alert($(this).attr("id"));
+                //alert(id);
+                amount += parseFloat(document.getElementById("pay"+id).value);
+            });
+            //alert(amount);
+            // if ($('input#payment_check'+i).is(':checked'))
+            // {
+            //     amount += parseFloat(document.getElementById("pay"+i).value);
+            // }
+            // }
 
             document.getElementById("total_amount").value = (amount - discount_amount);
             document.getElementById("total_amount_view").innerHTML = (amount - discount_amount);

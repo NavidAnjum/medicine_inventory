@@ -59,7 +59,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: "details_info_for_payment",
+                url: "supplier_wise_all_data",
                 type: "post",
                 data: {_token: _token, supplier_id:supplier},
                 success: function(data)
@@ -151,27 +151,27 @@
 
         function change_calculation_total_amount_for_payment_using_pay_input()
         {
-           var total_row = parseInt(document.getElementById("total_counter").value) - 1;
-           var discount_amount = parseInt(document.getElementById("discount_amount").value);
-           var amount = 0;
-           var id = '';
-           var totalattr = '';
-           // for (var i = 1; i <= total_row;i++ )
-           // {
-               $('input:checkbox[id^="payment_check"]:checked').each(function()
-               {
-                   totalattr = $(this).attr("id");
-                   var id = totalattr[totalattr.length -1];
-                   //alert($(this).attr("id"));
-                   //alert(id);
-                   amount += parseFloat(document.getElementById("pay"+id).value);
-               });
-               //alert(amount);
-               // if ($('input#payment_check'+i).is(':checked'))
-               // {
-               //     amount += parseFloat(document.getElementById("pay"+i).value);
-               // }
-           // }
+            var total_row = parseInt(document.getElementById("total_counter").value) - 1;
+            var discount_amount = parseInt(document.getElementById("discount_amount").value);
+            var amount = 0;
+            var id = '';
+            var totalattr = '';
+            // for (var i = 1; i <= total_row;i++ )
+            // {
+            $('input:checkbox[id^="payment_check"]:checked').each(function()
+            {
+                totalattr = $(this).attr("id");
+                var id = totalattr[totalattr.length -1];
+                //alert($(this).attr("id"));
+                //alert(id);
+                amount += parseFloat(document.getElementById("pay"+id).value);
+            });
+            //alert(amount);
+            // if ($('input#payment_check'+i).is(':checked'))
+            // {
+            //     amount += parseFloat(document.getElementById("pay"+i).value);
+            // }
+            // }
 
             document.getElementById("total_amount").value = (amount - discount_amount);
             document.getElementById("total_amount_view").innerHTML = (amount - discount_amount);
