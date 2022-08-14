@@ -32,6 +32,7 @@ Route::get('/', function () {
     return view('login');
 });
 
+
 Route::post('/login',[AuthController::class,'login']);
 Route::get('/login',function (){
     if (Auth::check()) {
