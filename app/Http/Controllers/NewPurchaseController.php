@@ -28,33 +28,32 @@ class NewPurchaseController extends Controller
         $purchase_order_id = DB::connection('mysql2')
             ->table('purchase_order')
             ->select('purchase_order_id')
-            ->orderBy('purchase_order_id','desc')->first();
+            ->orderBy('purchase_order_id', 'desc')->first();
 
-        if (is_null($purchase_order_id))
-        {
+        if (is_null($purchase_order_id)) {
             $last_purchase_order_id = 0;
-        }
-        else{
+        } else {
             $last_purchase_order_id = $purchase_order_id->purchase_order_id;
         }
 
-        return view('layout.purchase.add_new_purchase',compact(
-            'title','categories','suppliers', 'last_purchase_order_id'
+        return view('layout.purchase.add_new_purchase', compact(
+            'title',
+            'categories',
+            'suppliers',
+            'last_purchase_order_id'
         ));
     }
 
     public function getItems(Request $request)
     {
         $movies = [];
-        if($request->has('term'))
-        {
+        if ($request->has('term')) {
             $search = $request->term;
             $movies = DB::connection('mysql2')->table('brands_url')
                 ->select(DB::raw("*"))
                 ->where('brand_name', 'LIKE', "%{$search}%")
                 ->get();
-        }
-        else {
+        } else {
             $movies = DB::connection('mysql2')->table('brands_url')
                 ->select(DB::raw("*"))
                 ->get();
@@ -70,7 +69,7 @@ class NewPurchaseController extends Controller
         $item_all = [];
 
         $item_all = DB::connection('mysql2')->table('brands_url')
-            ->select(  '*')
+            ->select('*')
             ->where('id', '=', "$item_id")
             ->get();
         //dd($item_all);
@@ -82,7 +81,7 @@ class NewPurchaseController extends Controller
         $serial = $request->serial;
         //$categories = Category::get();
         $categories = ['medicine', 'baby_care', 'health', 'others'];
-        return view('layout.purchase.add_row_line')->with(['serial'=>$serial, 'categories'=>$categories]);
+        return view('layout.purchase.add_row_line')->with(['serial' => $serial, 'categories' => $categories]);
     }
 
 
@@ -100,24 +99,21 @@ class NewPurchaseController extends Controller
             'transection_type' => 'purchase_order'
         ];
 
-        $transection = DB::transaction(function () use ($today_date, $request, $purchase_order_header_data, &$message, &$purchase_order_id)
-        {
+        $transection = DB::transaction(function () use ($today_date, $request, $purchase_order_header_data, &$message, &$purchase_order_id) {
 
             $purchase_order_header_saving = DB::connection('mysql2')->table('purchase_order')
                 ->insertGetId($purchase_order_header_data);
 
             $purchase_order_id = $purchase_order_header_saving;
 
-            for ($i = 1; $i <= 50; $i++)
-            {
-                if ($request->input('category'.$i))
-                {
+            for ($i = 1; $i <= 50; $i++) {
+                if ($request->input('category' . $i)) {
                     $purchase_order_details_data = [
                         'purchase_order_id' => $purchase_order_id,
-                        'item_category' => $request->input('category'.$i),
-                        'item_id' => $request->input('item_name'.$i),
-                        'quantity' => $request->input('quantity'.$i),
-                        'per_unit_price' =>$request->input('per_unit_price'.$i)
+                        'item_category' => $request->input('category' . $i),
+                        'item_id' => $request->input('item_name' . $i),
+                        'quantity' => $request->input('quantity' . $i),
+                        'per_unit_price' => $request->input('per_unit_price' . $i)
                     ];
 
                     $purchase_order_details_saving = DB::connection('mysql2')->table('purchase_order_details')
@@ -148,24 +144,28 @@ class NewPurchaseController extends Controller
 
         //dd($purchase_order_details_after_insert_data);
 
-        return view('layout.purchase.purchase_order_details')->with(['status'=> $message, 'purchase_order_data'=> $purchase_order_after_insert_data,
-            'purchase_order_details_data'=> $purchase_order_details_after_insert_data]);
+        return view('layout.purchase.purchase_order_details')->with(['status' => $message, 'purchase_order_data' => $purchase_order_after_insert_data,
+            'purchase_order_details_data' => $purchase_order_details_after_insert_data]);
     }
 
 
     public function get_all_data()
     {
         $purchase_order_all_data = DB::connection('mysql2')->table('purchase_order')
-            ->select('purchase_order.*','supplier.supplier_name', 'purchase_order.purchase_order_id AS purchase_order_id',
-                 'receiving.purchase_order_id AS receiving_purchase_order_id')
+            ->select(
+                'purchase_order.*',
+                'supplier.supplier_name',
+                'purchase_order.purchase_order_id AS purchase_order_id',
+                'receiving.purchase_order_id AS receiving_purchase_order_id'
+            )
             ->distinct()
-            ->leftJoin('supplier', 'supplier.supplier_id' ,'=','purchase_order.supplier_id')
-            ->leftJoin('receiving', 'receiving.purchase_order_id' ,'=','purchase_order.purchase_order_id')
+            ->leftJoin('supplier', 'supplier.supplier_id', '=', 'purchase_order.supplier_id')
+            ->leftJoin('receiving', 'receiving.purchase_order_id', '=', 'purchase_order.purchase_order_id')
             ->get();
 
         //dd($purchase_order_all_data);
 
-        return view('layout.purchase.purchase_order_list')->with(['purchase_order_data'=> $purchase_order_all_data]);
+        return view('layout.purchase.purchase_order_list')->with(['purchase_order_data' => $purchase_order_all_data]);
     }
 
     public function get_details_info(Request $request)
@@ -195,8 +195,8 @@ class NewPurchaseController extends Controller
             ->where('purchase_order_details.purchase_order_id', '=', $purchase_order_id)
             ->get();
 
-        return view('layout.purchase.purchase_order_details')->with(['purchase_order_data'=> $purchase_order_after_insert_data,
-            'purchase_order_details_data'=> $purchase_order_details_after_insert_data]);
+        return view('layout.purchase.purchase_order_details')->with(['purchase_order_data' => $purchase_order_after_insert_data,
+            'purchase_order_details_data' => $purchase_order_details_after_insert_data]);
     }
 
     public function delete_purchase_order(Request $request)
@@ -208,7 +208,7 @@ class NewPurchaseController extends Controller
         //fetch purchase order header information
         $fetch_purchase_order_header_data = DB::connection('mysql2')->table('purchase_order')
             ->select('*')
-            ->where('purchase_order_id' , '=', $purchase_order_id)
+            ->where('purchase_order_id', '=', $purchase_order_id)
             ->get();
 
 
@@ -228,15 +228,14 @@ class NewPurchaseController extends Controller
         //fetch purchase order line data information
         $fetch_purchase_order_line_data = DB::connection('mysql2')->table('purchase_order_details')
             ->select('*')
-            ->where('purchase_order_id' , '=', $purchase_order_id)
+            ->where('purchase_order_id', '=', $purchase_order_id)
             ->get();
 
 
         $total_rows = count($fetch_purchase_order_line_data);
 
         //insert temp purchase order line wise data
-        for ($i = 0; $i < $total_rows; $i++)
-        {
+        for ($i = 0; $i < $total_rows; $i++) {
             $temp_purchase_order_details_data = [
                 'purchase_order_details_id' => $fetch_purchase_order_line_data[$i]->purchase_order_details_id,
                 'purchase_order_id' => $fetch_purchase_order_line_data[$i]->purchase_order_id,
@@ -256,15 +255,15 @@ class NewPurchaseController extends Controller
             ->where('purchase_order_id', '=', $purchase_order_id)->delete();
 
         $purchase_order_details_delete = DB::connection('mysql2')->table('purchase_order_details')
-            ->where('purchase_order_id','=',  $purchase_order_id)->delete();
+            ->where('purchase_order_id', '=', $purchase_order_id)->delete();
 
 
         $purchase_order_all_data = DB::connection('mysql2')->table('purchase_order')
-            ->select('purchase_order.*','supplier.supplier_name', 'receiving.receiving_id')
-            ->join('supplier', 'supplier.supplier_id' ,'=','purchase_order.supplier_id')
-            ->leftJoin('receiving', 'receiving.purchase_order_id' ,'=','purchase_order.purchase_order_id')
+            ->select('purchase_order.*', 'supplier.supplier_name', 'receiving.receiving_id')
+            ->join('supplier', 'supplier.supplier_id', '=', 'purchase_order.supplier_id')
+            ->leftJoin('receiving', 'receiving.purchase_order_id', '=', 'purchase_order.purchase_order_id')
             ->get();
 
-        return view('layout.purchase.purchase_order_list')->with(['purchase_order_data'=> $purchase_order_all_data]);
+        return view('layout.purchase.purchase_order_list')->with(['purchase_order_data' => $purchase_order_all_data]);
     }
 }

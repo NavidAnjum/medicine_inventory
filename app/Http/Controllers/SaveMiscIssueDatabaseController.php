@@ -25,43 +25,41 @@ class SaveMiscIssueDatabaseController extends Controller
             'status' => $request->input('status')
         ];
 
-        $transection = DB::transaction(function () use ($today_date, $request, $count, $misc_issue_data, &$message, &$misc_issue_id)
-        {
+        $transection = DB::transaction(function () use ($today_date, $request, $count, $misc_issue_data, &$message, &$misc_issue_id) {
             $misc_issue_data_saving = DB::connection('mysql2')->table('misc_issue')
                 ->insertGetId($misc_issue_data);
 
             $misc_issue_id = $misc_issue_data_saving;
 
-            for ($i = 1; $i < $count; $i++)
-            {
+            for ($i = 1; $i < $count; $i++) {
                 $get_lod_id = DB::connection('mysql2')->table('lot')
-                    ->where('item_id', '=', $request->input('item_name'.$i))
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->pluck('lot_id');
                 //dd($get_lod_id[0]);
                 $lot_id = $get_lod_id[0];
 
                 //item details info
                 $item_details_info = DB::connection('mysql2')->table('items')
-                    ->where('item_id', '=', $request->input('item_name'.$i) )
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->get();
 
                 $item_per_unit_price = $item_details_info[0]->per_unit_price;
                 $item_stock_quantity = $item_details_info[0]->stock_quantity;
-                $item_total_price = $request->input('quantity'.$i) * $item_per_unit_price;
+                $item_total_price = $request->input('quantity' . $i) * $item_per_unit_price;
 
                 $misc_issue_details_data = [
                     'misc_issue_id' => $misc_issue_id,
-                    'item_id' => $request->input('item_name'.$i),
-                    'item_category' => $request->input('item_category'.$i),
-                    'quantity' => $request->input('quantity'.$i),
+                    'item_id' => $request->input('item_name' . $i),
+                    'item_category' => $request->input('item_category' . $i),
+                    'quantity' => $request->input('quantity' . $i),
                     'lot_id' => $lot_id,
                     'per_unit_price' => $item_per_unit_price
                 ];
 
                 $transection_table_data = [
-                    'item_id' => $request->input('item_name'.$i),
-                    'item_category' => $request->input('item_category'.$i),
-                    'quantity' => $request->input('quantity'.$i),
+                    'item_id' => $request->input('item_name' . $i),
+                    'item_category' => $request->input('item_category' . $i),
+                    'quantity' => $request->input('quantity' . $i),
                     'source_transaction_type' => 'misc_issue',
                     'source_transaction_id' => 'misc_issue',
                     'transaction_date' => $today_date,
@@ -71,7 +69,7 @@ class SaveMiscIssueDatabaseController extends Controller
                 ];
 
                 $update_item_stock_table_data = [
-                    'stock_quantity' => ( $item_stock_quantity - $request->input('quantity'.$i))
+                    'stock_quantity' => ( $item_stock_quantity - $request->input('quantity' . $i))
                 ];
 
                 $misc_issue_details_saving = DB::connection('mysql2')->table('misc_issue_details')
@@ -81,9 +79,8 @@ class SaveMiscIssueDatabaseController extends Controller
                     ->insert($transection_table_data);
 
                 $item_stock_table_updating = DB::connection('mysql2')->table('items')
-                    ->where('item_id', '=', $request->input('item_name'.$i))
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->update($update_item_stock_table_data);
-
             }
 
             $message = 'Misc Issue Submitted Successfully';
@@ -102,7 +99,7 @@ class SaveMiscIssueDatabaseController extends Controller
             ->where('misc_issue_id', '=', $misc_issue_id)
             ->get();
 
-        return view('layout/misc_issue/misc_issue_against_details')->with(['status'=> $message, 'misc_issue_data'=> $misc_issue_after_insert_data,
-            'misc_issue_details_data'=> $misc_issue_details_after_insert_data]);
+        return view('layout/misc_issue/misc_issue_against_details')->with(['status' => $message, 'misc_issue_data' => $misc_issue_after_insert_data,
+            'misc_issue_details_data' => $misc_issue_details_after_insert_data]);
     }
 }

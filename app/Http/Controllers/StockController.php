@@ -15,7 +15,7 @@ class StockController extends Controller
 
         //dd($purchase_order_all_data);
 
-        return view('layout.items.stock')->with(['status'=> '', 'all_items'=> $all_items]);
+        return view('layout.items.stock')->with(['status' => '', 'all_items' => $all_items]);
     }
 
     public function item_wise_lot(Request $request)
@@ -23,14 +23,14 @@ class StockController extends Controller
         $item_id = $request->item_id;
         //dd($item_id);
         $item_wise_lot_all_data = DB::connection('mysql2')->table('lot')
-            ->select('lot.*','items.*')
-            ->leftJoin('items', 'items.item_id' ,'=','lot.item_id')
+            ->select('lot.*', 'items.*')
+            ->leftJoin('items', 'items.item_id', '=', 'lot.item_id')
             ->where('items.item_id', '=', $item_id)
             ->get();
 
         //dd($item_wise_lot_all_data);
 
-        return view('layout.items.item_wise_stock_info')->with(['item_wise_lot'=> $item_wise_lot_all_data]);
+        return view('layout.items.item_wise_stock_info')->with(['item_wise_lot' => $item_wise_lot_all_data]);
     }
 
     public function purchase_order_receive(Request $request)
@@ -38,13 +38,13 @@ class StockController extends Controller
         $purchase_order_id = $request->purchase_order_id;
 
         $item_wise_receiving_all_data = DB::connection('mysql2')->table('receiving')
-            ->select('receiving.*','items.*')
-            ->leftJoin('items', 'items.item_id' ,'=','receiving.item_id')
+            ->select('receiving.*', 'items.*')
+            ->leftJoin('items', 'items.item_id', '=', 'receiving.item_id')
             ->where('receiving.purchase_order_id', '=', $purchase_order_id)
             ->get();
 
         //dd($item_wise_receiving_all_data);
 
-        return view('layout.items.purchase_receive_view_list')->with(['item_wise_receiving'=> $item_wise_receiving_all_data]);
+        return view('layout.items.purchase_receive_view_list')->with(['item_wise_receiving' => $item_wise_receiving_all_data]);
     }
 }

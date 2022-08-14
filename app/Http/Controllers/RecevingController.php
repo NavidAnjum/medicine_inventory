@@ -17,15 +17,14 @@ class RecevingController extends Controller
         $po_number = $request->po_number;
 
         $purchase_order_all_data = DB::connection('mysql2')->table('purchase_order')
-            ->select('purchase_order.*','supplier.supplier_name', 'purchase_order_details.*', 'brands_url.*')
-            ->join('supplier', 'supplier.supplier_id' ,'=','purchase_order.supplier_id')
-            ->join('purchase_order_details', 'purchase_order.purchase_order_id' ,'=','purchase_order_details.purchase_order_id')
-            ->join('brands_url', 'purchase_order_details.item_id' ,'=','brands_url.id')
-            ->where('purchase_order_details.purchase_order_id' , '=', $po_number)
+            ->select('purchase_order.*', 'supplier.supplier_name', 'purchase_order_details.*', 'brands_url.*')
+            ->join('supplier', 'supplier.supplier_id', '=', 'purchase_order.supplier_id')
+            ->join('purchase_order_details', 'purchase_order.purchase_order_id', '=', 'purchase_order_details.purchase_order_id')
+            ->join('brands_url', 'purchase_order_details.item_id', '=', 'brands_url.id')
+            ->where('purchase_order_details.purchase_order_id', '=', $po_number)
             ->get();
 
-        if ($purchase_order_all_data->count() == 0)
-        {
+        if ($purchase_order_all_data->count() == 0) {
             $purchase_order_all_data = '';
         }
 
@@ -35,13 +34,13 @@ class RecevingController extends Controller
 
         //dd($purchase_order_all_data);
 
-        return view('layout.receiving.purchase_order_details')->with(['purchase_order_data'=> $purchase_order_all_data, 'location' => $location]);
+        return view('layout.receiving.purchase_order_details')->with(['purchase_order_data' => $purchase_order_all_data, 'location' => $location]);
     }
 
     public function add_new_line_for_receiving(Request $request)
     {
         $counter = $request->counter;
-        return view('layout.receiving.add_row_line')->with(['counter'=>$counter]);
+        return view('layout.receiving.add_row_line')->with(['counter' => $counter]);
     }
 
     public function po_receiving_data(Request $request)
@@ -49,44 +48,42 @@ class RecevingController extends Controller
         //total rows
         $total_rows_count = $request->total_rows_count;
 
-        for ($i=1; $i < $total_rows_count; $i++)
-        {
+        for ($i = 1; $i < $total_rows_count; $i++) {
             //multiple row for specefic item
-            for ($j=1; $j <= 10; $j++ )
-            {
+            for ($j = 1; $j <= 10; $j++) {
                 //receiving initial value
                 $receiving_date = date('Y-m-d');
                 $purchase_order_id = $request->purchase_order_id;
                 $supplier_id = $request->supplier_id;
-                $quantity = $request->input('quantity'.$i.$j);
-                $buy_per_unit_price = $request->input('per_unit_price'.$i);
+                $quantity = $request->input('quantity' . $i . $j);
+                $buy_per_unit_price = $request->input('per_unit_price' . $i);
                 $expire_date = $request->expire_date;
                 $status = '';
 
                 //item stock information value
-                $item_name = $request->input('item_name'.$i);
-                $generic_name = $request->input('generic_name'.$i);
-                $ratio =  $request->input('ratio'.$i);
-                $item_type = $request->input('item_type'.$i);
-                $brand_name = $request->input('brand_name'.$i);
-                $sales_per_unit_price = $request->input('sales_per_unit_price'.$i);
-                $unit_of_measurement = $request->input('unit_of_measurement'.$i);
-                $item_category = $request->input('item_category'.$i);
+                $item_name = $request->input('item_name' . $i);
+                $generic_name = $request->input('generic_name' . $i);
+                $ratio =  $request->input('ratio' . $i);
+                $item_type = $request->input('item_type' . $i);
+                $brand_name = $request->input('brand_name' . $i);
+                $sales_per_unit_price = $request->input('sales_per_unit_price' . $i);
+                $unit_of_measurement = $request->input('unit_of_measurement' . $i);
+                $item_category = $request->input('item_category' . $i);
                 $manufacturing_date =  date('Y-m-d');
-                $expiry_date = $request->input('expire_date'.$i.$j);
+                $expiry_date = $request->input('expire_date' . $i . $j);
                 //$expiry_date = date('Y-m-d');
-                $prescriptions_necessity = $request->input('prescriptions_necessity'.$i);
+                $prescriptions_necessity = $request->input('prescriptions_necessity' . $i);
 
                 //lot initial value
                 $source_transaction_type = 'purchase_order';
                 $source_transaction_id = $request->purchase_order_id;
-                $quantity = $request->input('quantity'.$i.$j);
-                $lot_number = 'po_'.$request->purchase_order_id;
+                $quantity = $request->input('quantity' . $i . $j);
+                $lot_number = 'po_' . $request->purchase_order_id;
                 $creation_date = date('Y-m-d');
 
                 //material transection details value
-                $item_category = $request->input('item_category'.$i);
-                $quantity = $request->input('quantity'.$i.$j);
+                $item_category = $request->input('item_category' . $i);
+                $quantity = $request->input('quantity' . $i . $j);
                 $source_transaction_type = 'purchase_order';
                 $source_transaction_id = $request->purchase_order_id;
                 $transaction_date = date('Y-m-d');
@@ -100,10 +97,8 @@ class RecevingController extends Controller
                 item_name = '$item_name' and generic_name = '$generic_name' and ratio = '$ratio' and item_type = '$item_type'
                 and brand_name = '$brand_name' LIMIT 1");
 
-                if (count($item_stock) > 0)
-                {
-                    if ($quantity != null)
-                    {
+                if (count($item_stock) > 0) {
+                    if ($quantity != null) {
                         $previous_stock_quantity = $item_stock[0]->stock_quantity;
                         $now_stock_quantity = $quantity + $previous_stock_quantity;
                         $item_stock_insert_id = $item_stock[0]->item_id;
@@ -163,11 +158,8 @@ class RecevingController extends Controller
                         $material_transaction_insert_id = DB::connection('mysql2')->table('material_transection_details')
                             ->insertGetId($material_transaction_data_insert);
                     }
-                }
-                else
-                {
-                    if ($quantity != null)
-                    {
+                } else {
+                    if ($quantity != null) {
                         //item_stock insert
                         $new_item_data = [
                             'item_name' => $item_name,
@@ -235,7 +227,6 @@ class RecevingController extends Controller
                     }
                 }
             }
-
         }
 
         $all_items = DB::connection('mysql2')->table('items')
@@ -244,9 +235,6 @@ class RecevingController extends Controller
 
         //dd($purchase_order_all_data);
 
-        return view('layout.items.stock')->with(['status'=> 'Item Received and Stock Available', 'all_items'=> $all_items]);
-
+        return view('layout.items.stock')->with(['status' => 'Item Received and Stock Available', 'all_items' => $all_items]);
     }
-
-
 }

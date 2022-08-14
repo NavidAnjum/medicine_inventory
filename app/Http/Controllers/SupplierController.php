@@ -17,10 +17,9 @@ class SupplierController extends Controller
     public function index()
     {
 
-        $supplier_result=DB::connection('mysql2')
+        $supplier_result = DB::connection('mysql2')
             ->select("select * from supplier");
-        return view('layout.supplier.supplier_list')->with('supplier_result',$supplier_result);
-
+        return view('layout.supplier.supplier_list')->with('supplier_result', $supplier_result);
     }
 
     /**
@@ -47,22 +46,17 @@ class SupplierController extends Controller
         $supplier_phone_number = $request->supplier_phone_number;
         $supplier_address = $request->supplier_address;
 
-        $duplicate=DB::connection('mysql2')
+        $duplicate = DB::connection('mysql2')
             ->select("select * from supplier where supplier_email='$supplier_email'");
-        if (count($duplicate)>0)
-        {
-            $duplicate_email="Supplier already present";
-           return view('layout.supplier.add_supplier')->with('duplicate_email',$duplicate_email);
-        }
-        else
-        {
-            $insert_into_supplier=DB::connection('mysql2')
+        if (count($duplicate) > 0) {
+            $duplicate_email = "Supplier already present";
+            return view('layout.supplier.add_supplier')->with('duplicate_email', $duplicate_email);
+        } else {
+            $insert_into_supplier = DB::connection('mysql2')
                 ->insert("Insert into supplier(company_name,supplier_name,supplier_email,supplier_phone_number,supplier_address) values
 ('$company_name','$supplier_name','$supplier_email','$supplier_phone_number','$supplier_address')");
             return redirect('supplier_list');
         }
-
-
     }
 
 

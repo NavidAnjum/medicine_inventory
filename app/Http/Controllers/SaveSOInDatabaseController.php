@@ -29,44 +29,42 @@ class SaveSOInDatabaseController extends Controller
             'status' => $request->input('status')
         ];
 
-        $transection = DB::transaction(function () use ($today_date, $request, $count, $sales_order_data, &$message, &$sales_order_id)
-        {
+        $transection = DB::transaction(function () use ($today_date, $request, $count, $sales_order_data, &$message, &$sales_order_id) {
 
             $sales_order_saving = DB::connection('mysql2')->table('sales_order')
                 ->insertGetId($sales_order_data);
 
             $sales_order_id = $sales_order_saving;
 
-            for ($i = 1; $i < $count; $i++)
-            {
+            for ($i = 1; $i < $count; $i++) {
                 $get_lod_id = DB::connection('mysql2')->table('lot')
-                    ->where('item_id', '=', $request->input('item_name'.$i))
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->pluck('lot_id');
                 //dd($get_lod_id[0]);
                 $lot_id = $get_lod_id[0];
 
                 //item details info
                 $item_details_info = DB::connection('mysql2')->table('items')
-                    ->where('item_id', '=', $request->input('item_name'.$i) )
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->get();
 
                 $item_per_unit_price = $item_details_info[0]->per_unit_price;
                 $item_stock_quantity = $item_details_info[0]->stock_quantity;
-                $item_total_price = $request->input('quantity'.$i) * $item_per_unit_price;
+                $item_total_price = $request->input('quantity' . $i) * $item_per_unit_price;
 
                 $sales_order_details_data = [
                     'sales_order_id' => $sales_order_id,
-                    'item_id' => $request->input('item_name'.$i),
-                    'item_category' => $request->input('item_category'.$i),
-                    'quantity' => $request->input('quantity'.$i),
+                    'item_id' => $request->input('item_name' . $i),
+                    'item_category' => $request->input('item_category' . $i),
+                    'quantity' => $request->input('quantity' . $i),
                     'lot_id' => $lot_id,
-                    'discount_amount' => $request->input('discount_amount'.$i)
+                    'discount_amount' => $request->input('discount_amount' . $i)
                 ];
 
                 $transection_table_data = [
-                    'item_id' => $request->input('item_name'.$i),
-                    'item_category' => $request->input('item_category'.$i),
-                    'quantity' => $request->input('quantity'.$i),
+                    'item_id' => $request->input('item_name' . $i),
+                    'item_category' => $request->input('item_category' . $i),
+                    'quantity' => $request->input('quantity' . $i),
                     'source_transaction_type' => 'sales_order',
                     'source_transaction_id' => 'so',
                     'transaction_date' => $today_date,
@@ -76,7 +74,7 @@ class SaveSOInDatabaseController extends Controller
                 ];
 
                 $update_item_stock_table_data = [
-                    'stock_quantity' => ( $item_stock_quantity - $request->input('quantity'.$i))
+                    'stock_quantity' => ( $item_stock_quantity - $request->input('quantity' . $i))
                 ];
 
                 $sales_order_details_saving = DB::connection('mysql2')->table('sales_order_details')
@@ -86,9 +84,8 @@ class SaveSOInDatabaseController extends Controller
                     ->insert($transection_table_data);
 
                 $item_stock_table_updating = DB::connection('mysql2')->table('items')
-                    ->where('item_id', '=', $request->input('item_name'.$i))
+                    ->where('item_id', '=', $request->input('item_name' . $i))
                     ->update($update_item_stock_table_data);
-
             }
 
             $message = 'Sales Order Submitted Successfully';
@@ -111,8 +108,7 @@ class SaveSOInDatabaseController extends Controller
 
 
 
-        return view('layout/sales/sales_order_againest_details')->with(['status'=> $message, 'sales_order_data'=> $sales_order_after_insert_data,
-            'sales_order_details_data'=> $sales_order_details_after_insert_data]);
+        return view('layout/sales/sales_order_againest_details')->with(['status' => $message, 'sales_order_data' => $sales_order_after_insert_data,
+            'sales_order_details_data' => $sales_order_details_after_insert_data]);
     }
-
 }

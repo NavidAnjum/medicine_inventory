@@ -11,29 +11,24 @@ class LocationController extends Controller
     {
         $organization_name = $request->organization_name;
 
-        $duplicate=DB::connection('mysql2')
+        $duplicate = DB::connection('mysql2')
             ->select("select * from organization where org_name='$organization_name'");
-        if (count($duplicate)>0)
-        {
+        if (count($duplicate) > 0) {
             $duplicate_org = "Organization already present";
-            return view('layout.location.add_organization')->with('duplicate_org',$duplicate_org);
-        }
-        else
-        {
-            $insert_into_supplier= DB::connection('mysql2')
+            return view('layout.location.add_organization')->with('duplicate_org', $duplicate_org);
+        } else {
+            $insert_into_supplier = DB::connection('mysql2')
                 ->insert("Insert into organization (org_name) values
                         ('$organization_name')");
             return redirect('organization_list');
         }
-
-
     }
 
     public function org_index()
     {
         $organization_result = DB::connection('mysql2')
             ->select("select * from organization");
-        return view('layout.location.organization_list')->with('organization_result',$organization_result);
+        return view('layout.location.organization_list')->with('organization_result', $organization_result);
     }
 
     //for sub_inventory
@@ -41,7 +36,7 @@ class LocationController extends Controller
     {
         $organization_result = DB::connection('mysql2')
             ->select("select * from organization");
-        return view('layout/location/add_sub_inventory')->with('organization_result',$organization_result);
+        return view('layout/location/add_sub_inventory')->with('organization_result', $organization_result);
     }
 
     public function sub_inventory_store(Request $request)
@@ -49,22 +44,17 @@ class LocationController extends Controller
         $sub_inventory_name = $request->sub_inventory_name;
         $org_id = $request->org_id;
 
-        $duplicate=DB::connection('mysql2')
+        $duplicate = DB::connection('mysql2')
             ->select("select * from sub_inventory where sub_inventory_name='$sub_inventory_name'");
-        if (count($duplicate)>0)
-        {
+        if (count($duplicate) > 0) {
             $duplicate_sub_inventory = "Sub-inventory already present";
-            return view('layout.location.add_sub_inventory')->with('duplicate_sub_inventory',$duplicate_sub_inventory);
-        }
-        else
-        {
-            $insert_into_sub_inventory= DB::connection('mysql2')
+            return view('layout.location.add_sub_inventory')->with('duplicate_sub_inventory', $duplicate_sub_inventory);
+        } else {
+            $insert_into_sub_inventory = DB::connection('mysql2')
                 ->insert("Insert into sub_inventory (sub_inventory_name, org_id) values
                         ('$sub_inventory_name', $org_id)");
             return redirect('sub_inventory_list');
         }
-
-
     }
 
     public function sub_inventory_index()
@@ -72,7 +62,7 @@ class LocationController extends Controller
         $sub_inventory_result = DB::connection('mysql2')
             ->select("select sub_inventory.*, organization.org_name from sub_inventory, organization where
                 sub_inventory.org_id = organization.id ");
-        return view('layout.location.sub_inventory_list')->with('sub_inventory_result',$sub_inventory_result);
+        return view('layout.location.sub_inventory_list')->with('sub_inventory_result', $sub_inventory_result);
     }
 
 
@@ -84,7 +74,7 @@ class LocationController extends Controller
         $sub_inventory_result = DB::connection('mysql2')
             ->select("select * from sub_inventory");
 
-        return view('layout/location/add_rack')->with(['organization_result'=> $organization_result, 'sub_inventory_result' => $sub_inventory_result]);
+        return view('layout/location/add_rack')->with(['organization_result' => $organization_result, 'sub_inventory_result' => $sub_inventory_result]);
     }
 
     public function rack_store(Request $request)
@@ -93,24 +83,19 @@ class LocationController extends Controller
         $org_id = $request->org_id;
         $sub_inventory_id = $request->sub_inventory_id;
 
-        $duplicate=DB::connection('mysql2')
+        $duplicate = DB::connection('mysql2')
             ->select("select * from rack where rack_name='$rack_name'");
 
-        if (count($duplicate)>0)
-        {
+        if (count($duplicate) > 0) {
             $duplicate_rack = "Rack already present";
 
-            return view('layout.location.add_rack')->with('duplicate_rack',$duplicate_rack);
-        }
-        else
-        {
+            return view('layout.location.add_rack')->with('duplicate_rack', $duplicate_rack);
+        } else {
             $insert_into_rack = DB::connection('mysql2')
                 ->insert("Insert into rack (rack_name, org_id, sub_inventory_id) values
                         ('$rack_name', $org_id, $sub_inventory_id)");
             return redirect('rack_list');
         }
-
-
     }
 
     public function rack_index()
@@ -132,7 +117,7 @@ class LocationController extends Controller
         $rack_result = DB::connection('mysql2')
             ->select("select * from rack");
 
-        return view('layout/location/add_row')->with(['organization_result'=> $organization_result, 'sub_inventory_result' => $sub_inventory_result,
+        return view('layout/location/add_row')->with(['organization_result' => $organization_result, 'sub_inventory_result' => $sub_inventory_result,
             'rack_result' => $rack_result]);
     }
 
@@ -143,24 +128,19 @@ class LocationController extends Controller
         $org_id = $request->org_id;
         $sub_inventory_id = $request->sub_inventory_id;
 
-        $duplicate=DB::connection('mysql2')
+        $duplicate = DB::connection('mysql2')
             ->select("select * from row where row_name='$row_name'");
 
-        if (count($duplicate)>0)
-        {
+        if (count($duplicate) > 0) {
             $duplicate_row = "Row already present";
 
-            return view('layout.location.add_row')->with('duplicate_row',$duplicate_row);
-        }
-        else
-        {
+            return view('layout.location.add_row')->with('duplicate_row', $duplicate_row);
+        } else {
             $insert_into_row = DB::connection('mysql2')
                 ->insert("Insert into row (row_name, org_id, sub_inventory_id, rack_id) values
                         ('$row_name', $org_id, $sub_inventory_id, $rack_id)");
             return redirect('row_list');
         }
-
-
     }
 
     public function row_index()
@@ -184,7 +164,7 @@ class LocationController extends Controller
         $row_result = DB::connection('mysql2')
             ->select("select * from row");
 
-        return view('layout/location/add_bin')->with(['organization_result'=> $organization_result, 'sub_inventory_result' => $sub_inventory_result,
+        return view('layout/location/add_bin')->with(['organization_result' => $organization_result, 'sub_inventory_result' => $sub_inventory_result,
             'rack_result' => $rack_result, 'row_result' => $row_result]);
     }
 
@@ -199,21 +179,16 @@ class LocationController extends Controller
         $duplicate = DB::connection('mysql2')
             ->select("select * from bin where bin_name='$bin_name'");
 
-        if (count($duplicate)>0)
-        {
+        if (count($duplicate) > 0) {
             $duplicate_bin = "Bin already present";
 
             return view('layout.location.add_bin')->with('duplicate_bin', $duplicate_bin);
-        }
-        else
-        {
+        } else {
             $insert_into_bin = DB::connection('mysql2')
                 ->insert("Insert into bin (bin_name, row_id, org_id, sub_inventory_id, rack_id) values
                         ('$bin_name', '$row_id', $org_id, $sub_inventory_id, $rack_id)");
             return redirect('bin_list');
         }
-
-
     }
 
     public function bin_index()
@@ -223,5 +198,4 @@ class LocationController extends Controller
               bin.org_id = organization.id and bin.sub_inventory_id = sub_inventory.id and bin.rack_id = rack.id and bin.row_id = row.id ");
         return view('layout.location.bin_list')->with('bin_result', $bin_result);
     }
-
 }
