@@ -13,7 +13,7 @@ class SalesOrderListController extends Controller
         $sales_order_after_insert_data = DB::connection('mysql2')->table('sales_order')
             ->get();
 
-        return view('layout/sales/sales_order_list')->with(['sales_order_data'=> $sales_order_after_insert_data]);
+        return view('layout/sales/sales_order_list')->with(['sales_order_data' => $sales_order_after_insert_data]);
     }
 
     function details($sales_order_id)
@@ -27,7 +27,7 @@ class SalesOrderListController extends Controller
             ->get();
 
 
-        return view('layout/sales/sales_order_againest_details')->with(['status'=> '', 'sales_order_data'=> $sales_order_after_insert_data,
-            'sales_order_details_data'=> $sales_order_details_after_insert_data]);
+        return view('layout/sales/sales_order_againest_details')->with(['status' => '', 'sales_order_data' => $sales_order_after_insert_data,
+            'sales_order_details_data' => $sales_order_details_after_insert_data]);
     }
 }

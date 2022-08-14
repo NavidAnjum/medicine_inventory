@@ -13,7 +13,7 @@ class PaymentController extends Controller
             ->select('*')
             ->get();
 
-        return view('layout.payment.payment_form')->with(['suppliers'=> $suppliers]);
+        return view('layout.payment.payment_form')->with(['suppliers' => $suppliers]);
     }
 
     public function details_for_payment(Request $request)
@@ -21,9 +21,9 @@ class PaymentController extends Controller
         $supplier_id = $request->supplier_id;
         //dd($supplier_id);
         $item_wise_receiving_all_data = DB::connection('mysql2')->table('receiving')
-            ->select('receiving.*','items.*')
-            ->leftJoin('items', 'items.item_id' ,'=','receiving.item_id')
-            ->leftJoin('payment_set', 'receiving.supplier_id' ,'=','payment_set.supplier_id')
+            ->select('receiving.*', 'items.*')
+            ->leftJoin('items', 'items.item_id', '=', 'receiving.item_id')
+            ->leftJoin('payment_set', 'receiving.supplier_id', '=', 'payment_set.supplier_id')
             ->where('receiving.supplier_id', '=', $supplier_id)
             ->groupBy('receiving.receiving_id')
             ->get();
@@ -36,7 +36,7 @@ class PaymentController extends Controller
 
         //dd($item_wise_receiving_all_data);
 
-        return view('layout.payment.purchase_receive_view_list')->with(['item_wise_receiving'=> $item_wise_receiving_all_data, 'all_purchase_order'=> $item_wise_receiving_for_po]);
+        return view('layout.payment.purchase_receive_view_list')->with(['item_wise_receiving' => $item_wise_receiving_all_data, 'all_purchase_order' => $item_wise_receiving_for_po]);
     }
 
     function details_for_purchase_order_wise_payment(Request $request)
@@ -44,12 +44,12 @@ class PaymentController extends Controller
         $purchase_order_id = $request->purchase_order_id;
 
         $item_wise_receiving_all_data = DB::connection('mysql2')->table('receiving')
-            ->select('receiving.*','items.*')
-            ->leftJoin('items', 'items.item_id' ,'=','receiving.item_id')
+            ->select('receiving.*', 'items.*')
+            ->leftJoin('items', 'items.item_id', '=', 'receiving.item_id')
             ->where('receiving.purchase_order_id', '=', $purchase_order_id)
             ->get();
 
-        return view('layout.payment.purchase_order_wise_receive_view_list')->with(['item_wise_receiving'=> $item_wise_receiving_all_data]);
+        return view('layout.payment.purchase_order_wise_receive_view_list')->with(['item_wise_receiving' => $item_wise_receiving_all_data]);
     }
 
     function adjustment_amount_form()
@@ -104,16 +104,13 @@ class PaymentController extends Controller
         //payment line value assign
         echo $row_count = $request->total_counter;
 
-        for ($i=1; $i < $row_count; $i++)
-        {
-            if ( isset($request->payment_check[$i-1]) )
-            {
-
+        for ($i = 1; $i < $row_count; $i++) {
+            if (isset($request->payment_check[$i - 1])) {
                 //item stock information value
                 $payment_voucher_date = date('Y-m-d');
-                $source_transaction_id = $request->input('receiving_id'.$i);
+                $source_transaction_id = $request->input('receiving_id' . $i);
                 $source_transaction_type =  'RECEIVING_PAYMENT';
-                $source_item_id = $request->input('item_id'.$i);
+                $source_item_id = $request->input('item_id' . $i);
                 $payment_set_id = $payment_set_insert_id;
                 $status = '';
 
@@ -129,10 +126,7 @@ class PaymentController extends Controller
 
                 $payment_voucher_insert_id = DB::connection('mysql2')->table('payment_voucher')
                     ->insertGetId($payment_voucher_data_insert);
-
             }
         }
-
     }
-
 }

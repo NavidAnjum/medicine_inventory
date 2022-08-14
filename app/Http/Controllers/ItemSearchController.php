@@ -9,22 +9,18 @@ use App\Models\Item;
 
 class ItemSearchController extends Controller
 {
-
     public function getItems(Request $request)
     {
         $movies = [];
 
-        if($request->has('term'))
-        {
+        if ($request->has('term')) {
             $search = $request->term;
             $movies = DB::connection('mysql2')->table('items')
                 ->select(DB::raw("*"))
                ->where('item_name', 'LIKE', "%{$search}%")
                 ->where('stock_quantity', '>', "0")
                 ->get();
-        }
-        else {
-
+        } else {
             $movies = DB::connection('mysql2')->table('items')
                 ->select(DB::raw("*"))
                 ->where('stock_quantity', '>', "0")
@@ -40,17 +36,14 @@ class ItemSearchController extends Controller
     {
         $movies = [];
 
-        if($request->has('term'))
-        {
+        if ($request->has('term')) {
             $search = $request->term;
             $movies = DB::connection('mysql2')->table('items')
                 ->select(DB::raw("*"))
                 ->where('item_name', 'LIKE', "%{$search}%")
                 ->where('stock_quantity', '>', "0")
                 ->get();
-        }
-        else {
-
+        } else {
             $movies = DB::connection('mysql2')->table('items')
                 ->select(DB::raw("*"))
                 ->where('stock_quantity', '>', "0")
@@ -88,7 +81,7 @@ class ItemSearchController extends Controller
 //            ->get();
 
         $item_all = DB::connection('mysql2')->table('items')
-            ->select(  'items.*', DB::raw('count(items.item_id) as total'))
+            ->select('items.*', DB::raw('count(items.item_id) as total'))
             ->groupBy('items.item_id')
             ->where('items.item_id', '=', "$item_id")
             ->get();
@@ -96,7 +89,7 @@ class ItemSearchController extends Controller
 
 
         $get_lot_info = DB::connection('mysql2')->table('lot')
-            ->select(  'lot.lot_number', 'lot.lot_id')
+            ->select('lot.lot_number', 'lot.lot_id')
             ->where('lot.item_id', '=', "$item_id")
             ->get();
 
@@ -110,5 +103,4 @@ class ItemSearchController extends Controller
             'total_lot' => $total_count,
         ));
     }
-
 }

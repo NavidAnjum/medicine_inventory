@@ -16,8 +16,8 @@ class GenerateDirectSOController extends Controller
 //        $request->session()->put('customer_name',$customer_name);
 //        $request->session()->put('customer_phone_number',$customer_phone_number);
 
-        return view('layout/sales/direct_sales_order_details')->with(['customer_name'=>$customer_name,
-            'customer_phone_number'=>$customer_phone_number
+        return view('layout/sales/direct_sales_order_details')->with(['customer_name' => $customer_name,
+            'customer_phone_number' => $customer_phone_number
         ]);
     }
 }

@@ -12,7 +12,7 @@ class MiscIssueListController extends Controller
         $misc_issue_after_insert_data = DB::connection('mysql2')->table('misc_issue')
             ->get();
 
-        return view('layout/misc_issue/misc_issue_list')->with(['misc_issue_data'=> $misc_issue_after_insert_data]);
+        return view('layout/misc_issue/misc_issue_list')->with(['misc_issue_data' => $misc_issue_after_insert_data]);
     }
 
     function details($misc_issue_id)
@@ -26,7 +26,7 @@ class MiscIssueListController extends Controller
             ->get();
 
 
-        return view('layout/misc_issue/misc_issue_against_details')->with(['status'=> '', 'misc_issue_data'=> $misc_issue_after_insert_data,
-            'misc_issue_details_data'=> $misc_issue_details_after_insert_data]);
+        return view('layout/misc_issue/misc_issue_against_details')->with(['status' => '', 'misc_issue_data' => $misc_issue_after_insert_data,
+            'misc_issue_details_data' => $misc_issue_details_after_insert_data]);
     }
 }
