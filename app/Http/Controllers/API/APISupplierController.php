@@ -17,7 +17,9 @@ class APISupplierController extends Controller
      */
     public function index()
     {
-        //
+        return DB::connection('mysql2')
+			->table('supplier')
+			->get();
     }
 
     /**
@@ -38,25 +40,19 @@ class APISupplierController extends Controller
      */
     public function store(AddSupplierRequest $request)
     {
-        $company_name = $request->company_name;
-        $supplier_name = $request->supplier_name;
-        $supplier_email = $request->supplier_email;
-        $supplier_phone_number = $request->supplier_phone_number;
-        $supplier_address = $request->supplier_address;
-
-
         $duplicate = DB::connection('mysql2')
             ->table('supplier')
-            ->where('supplier_email', '=', $supplier_email)
+            ->where('supplier_email', '=', $request->supplier_email)
             ->get();
         if (count($duplicate) > 0) {
             $duplicate_email = "Supplier already present";
             return response(['duplicate_email' => $duplicate_email]);
         } else {
             $insert_into_supplier = DB::connection('mysql2')
-                ->insert("Insert into supplier(company_name,supplier_name,supplier_email,supplier_phone_number,supplier_address) values
-('$request->company_name','$request->supplier_name','$request->supplier_email',
-'$request->supplier_phone_number','$request->supplier_address')");
+                ->insert("Insert into supplier(company_name,supplier_name,supplier_email,
+					supplier_phone_number,supplier_address) values
+					('$request->company_name','$request->supplier_name','$request->supplier_email',
+					'$request->supplier_phone_number','$request->supplier_address')");
             return response('New Supplier Added');
         }
     }
