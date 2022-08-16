@@ -22,7 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //This is from APIAuth/AuthController for API login
 	Route::post('/login', [AuthController::class, 'login']);
-
-	Route::group(['middleware'=>['auth:sanctum']],function (){
+	Route::group(['middleware'=>['auth:sanctum','protect']],function (){
 		Route::resource('supplier',APISupplierController::class);
+
+
 	});
