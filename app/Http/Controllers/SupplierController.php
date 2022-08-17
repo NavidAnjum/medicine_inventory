@@ -16,7 +16,6 @@ class SupplierController extends Controller
      */
     public function index()
     {
-
         $supplier_result = DB::connection('mysql2')
             ->select("select * from supplier");
         return view('layout.supplier.supplier_list')->with('supplier_result', $supplier_result);

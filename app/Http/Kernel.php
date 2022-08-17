@@ -48,7 +48,11 @@ class Kernel extends HttpKernel
         'protect' => [
             \App\Http\Middleware\SetDBMiddleWare::class,
         ],
-    ];
+		'protect_medicine' => [
+			\App\Http\Middleware\MedicineSetDbMiddleware::class,
+		],
+
+	];
 
     /**
      * The application's route middleware.

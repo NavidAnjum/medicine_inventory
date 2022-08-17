@@ -19,6 +19,13 @@ class MedicineController extends Controller
 		return config('constant.medicine_category');
 
     }
+    public function medicineList(){
+
+		$med_list=DB::connection('mysql3')
+			->table('brands_url')
+			->get();
+		return $med_list;
+	}
 
     /**
      * Show the form for creating a new resource.

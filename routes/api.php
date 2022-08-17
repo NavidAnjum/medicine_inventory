@@ -29,3 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 	});
+
+
+	Route::group(['middleware'=>['auth:sanctum','protect_medicine']],function(){
+		Route::get('medicine_list',[MedicineController::class,'medicineList']);
+
+	});
