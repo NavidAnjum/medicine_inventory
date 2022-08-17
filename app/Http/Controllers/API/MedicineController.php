@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API;
+	namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AddSupplierRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+	use App\Http\Controllers\Controller;
+	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\Config;
+	use Illuminate\Support\Facades\DB;
 
-class APISupplierController extends Controller
+class MedicineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,8 @@ class APISupplierController extends Controller
      */
     public function index()
     {
-        return DB::connection('mysql2')
-			->table('supplier')
-			->get();
+		return config('constant.medicine_category');
+
     }
 
     /**
@@ -37,23 +36,9 @@ class APISupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddSupplierRequest $request)
+    public function store(Request $request)
     {
-        $duplicate = DB::connection('mysql2')
-            ->table('supplier')
-            ->where('supplier_email', '=', $request->supplier_email)
-            ->get();
-        if (count($duplicate) > 0) {
-            $duplicate_email = "Supplier already present";
-            return response(['duplicate_email' => $duplicate_email]);
-        } else {
-            $insert_into_supplier = DB::connection('mysql2')
-                ->insert("Insert into supplier(company_name,supplier_name,supplier_email,
-					supplier_phone_number,supplier_address) values
-					('$request->company_name','$request->supplier_name','$request->supplier_email',
-					'$request->supplier_phone_number','$request->supplier_address')");
-            return response('New Supplier Added');
-        }
+        //
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 	use App\Http\Controllers\API\APISupplierController;
+	use App\Http\Controllers\API\MedicineController;
 	use App\Http\Controllers\APIAuth\AuthController;
 	use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	Route::post('/login', [AuthController::class, 'login']);
 	Route::group(['middleware'=>['auth:sanctum','protect']],function (){
 		Route::resource('supplier',APISupplierController::class);
+		Route::resource('medicine_category',MedicineController::class);
 
 
 	});
