@@ -19504,7 +19504,9 @@ var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["
     return {
       company_name: '',
       supplier_name: '',
-      supplier_email: ''
+      supplier_email: '',
+      supplier_phone_number: '',
+      supplier_address: ''
     };
   },
   methods: {
@@ -19558,7 +19560,9 @@ var axios = (__webpack_require__(/*! axios */ "./node_modules/axios/index.js")["
                   data: {
                     company_name: _this.company_name,
                     supplier_name: _this.supplier_name,
-                    supplier_email: _this.supplier_email
+                    supplier_email: _this.supplier_email,
+                    supplier_phone_number: _this.supplier_phone_number,
+                    supplier_address: _this.supplier_address
                   }
                 })["catch"](function (error) {
                   // handle error
@@ -19643,7 +19647,7 @@ var _hoisted_10 = {
 };
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "company_name",
+  "for": "supplier_name",
   "class": "form-label"
 }, "Supplier Name", -1
 /* HOISTED */
@@ -19654,13 +19658,35 @@ var _hoisted_12 = {
 };
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "company_name",
+  "for": "supplier_email",
   "class": "form-label"
 }, "Supplier Email", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_14 = {
+  "class": "mb-3"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "supplier_phone_number",
+  "class": "form-label"
+}, "Supplier Phone", -1
+/* HOISTED */
+);
+
+var _hoisted_16 = {
+  "class": "mb-3"
+};
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "supplier_address",
+  "class": "form-label"
+}, "Supplier Address", -1
+/* HOISTED */
+);
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "mb-3"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit"
@@ -19670,7 +19696,7 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.start of container-fluid is on dashboard not here "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Page Heading "), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Circle Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = function () {
+    onSubmit: _cache[5] || (_cache[5] = function () {
       return $options.add_supplier && $options.add_supplier.apply($options, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -19700,9 +19726,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Supplier Email"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.supplier_email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Circle Buttons (Default) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Message is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.company_name), 1
-  /* TEXT */
-  ), _hoisted_14])], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.supplier_email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.supplier_phone_number = $event;
+    }),
+    placeholder: "Supplier Phone"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.supplier_phone_number]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.supplier_address = $event;
+    }),
+    placeholder: "Supplier Address"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.supplier_address]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Circle Buttons (Default) "), _hoisted_18])], 32
   /* HYDRATE_EVENTS */
   )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.container-fluid is on dashboard not here ")], 64
   /* STABLE_FRAGMENT */
