@@ -25,17 +25,27 @@
                        </div>
                     <div class="mb-3">
 
-                    <label for="company_name" class="form-label">Supplier Name</label>
+                    <label for="supplier_name" class="form-label">Supplier Name</label>
                     <input type="text" class="form-control"  v-model="supplier_name" placeholder="Supplier Name" />
                      </div>
                     <div class="mb-3">
 
-                    <label for="company_name" class="form-label">Supplier Email</label>
+                    <label for="supplier_email" class="form-label">Supplier Email</label>
                     <input type="text" class="form-control"  v-model="supplier_email" placeholder="Supplier Email" />
                      </div>
+                    <div class="mb-3">
+
+                    <label for="supplier_phone_number" class="form-label">Supplier Phone</label>
+                    <input type="text" class="form-control"  v-model="supplier_phone_number" placeholder="Supplier Phone" />
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="supplier_address" class="form-label">Supplier Address</label>
+                        <input type="text" class="form-control"  v-model="supplier_address" placeholder="Supplier Address" />
+                    </div>
 
                     <!-- Circle Buttons (Default) -->
-                    <p>Message is: {{ company_name }}</p>
 
                         <div class="mb-3">
                             <button type="submit">Submit</button>
@@ -66,10 +76,12 @@
     export default {
         data() {
             return {
-
                 company_name: '',
                 supplier_name: '',
-                supplier_email: ''
+                supplier_email: '',
+                supplier_phone_number:'',
+                supplier_address:''
+
             }
         },
 
@@ -99,7 +111,9 @@
                     data: {
                         company_name: this.company_name,
                         supplier_name: this.supplier_name,
-                        supplier_email: this.supplier_email
+                        supplier_email: this.supplier_email,
+                        supplier_phone_number:this.supplier_phone_number,
+                        supplier_address:this.supplier_address
                     }
                 })
                     .catch(function (error) {
