@@ -1,11 +1,11 @@
 <?php
 
-	namespace App\Http\Controllers\API;
+    namespace App\Http\Controllers\API;
 
-	use App\Http\Controllers\Controller;
-	use Illuminate\Http\Request;
-	use Illuminate\Support\Facades\Config;
-	use Illuminate\Support\Facades\DB;
+    use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Config;
+    use Illuminate\Support\Facades\DB;
 
 class MedicineController extends Controller
 {
@@ -16,16 +16,16 @@ class MedicineController extends Controller
      */
     public function index()
     {
-		return config('constant.medicine_category');
-
+        return config('constant.medicine_category');
     }
-    public function medicineList(){
+    public function medicineList()
+    {
 
-		$med_list=DB::connection('mysql3')
-			->table('brands_url')
-			->get();
-		return $med_list;
-	}
+        $med_list = DB::connection('mysql3')
+            ->table('brands_url')
+            ->get();
+        return $med_list;
+    }
 
     /**
      * Show the form for creating a new resource.

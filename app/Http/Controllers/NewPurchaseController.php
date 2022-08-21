@@ -25,22 +25,22 @@ class NewPurchaseController extends Controller
             ->get();
 
 
-        $purchase_order_id = DB::connection('mysql2')
-            ->table('purchase_order')
-            ->select('purchase_order_id')
-            ->orderBy('purchase_order_id', 'desc')->first();
-
-        if (is_null($purchase_order_id)) {
-            $last_purchase_order_id = 0;
-        } else {
-            $last_purchase_order_id = $purchase_order_id->purchase_order_id;
-        }
+//        $purchase_order_id = DB::connection('mysql2')
+//            ->table('purchase_order')
+//            ->select('purchase_order_id')
+//            ->orderBy('purchase_order_id', 'desc')->first();
+//
+//        if (is_null($purchase_order_id)) {
+//            $last_purchase_order_id = 0;
+//        } else {
+//            $last_purchase_order_id = $purchase_order_id->purchase_order_id;
+//        }
 
         return view('layout.purchase.add_new_purchase', compact(
             'title',
             'categories',
-            'suppliers',
-            'last_purchase_order_id'
+            'suppliers'
+            // 'last_purchase_order_id'
         ));
     }
 

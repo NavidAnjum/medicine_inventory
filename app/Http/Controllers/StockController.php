@@ -45,6 +45,7 @@ class StockController extends Controller
 
         //dd($item_wise_receiving_all_data);
 
-        return view('layout.items.purchase_receive_view_list')->with(['item_wise_receiving' => $item_wise_receiving_all_data]);
+        return view('layout.items.purchase_receive_view_list')
+            ->with(['item_wise_receiving' => $item_wise_receiving_all_data]);
     }
 }
