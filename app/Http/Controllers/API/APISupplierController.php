@@ -17,8 +17,8 @@ class APISupplierController extends Controller
     public function index()
     {
         return DB::connection('mysql2')
-			->table('supplier')
-			->get();
+            ->table('supplier')
+            ->get();
     }
 
     /**
@@ -45,7 +45,7 @@ class APISupplierController extends Controller
             ->get();
         if (count($duplicate) > 0) {
             $duplicate_email = "Supplier already present";
-            return response(['duplicate_email' => $duplicate_email]);
+            return response($duplicate_email);
         } else {
             $insert_into_supplier = DB::connection('mysql2')
                 ->insert("Insert into supplier(company_name,supplier_name,supplier_email,

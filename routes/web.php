@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SupplierController;
+	use App\Http\Controllers\NewPurchaseController;
+	use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GenerateDirectSOController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\SaveMiscIssueDatabaseController;
 use App\Http\Controllers\SalesOrderListController;
 use App\Http\Controllers\MiscIssueListController;
 use App\Http\Controllers\GenerateDirectMiscIssueController;
-use App\Http\Controllers\NewPurchaseController;
 use App\Http\Controllers\RecevingController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\StockController;
