@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class NewPurchaseController extends Controller
 {
+
+
     public function create_purchase()
     {
         $title = 'create purchase';
@@ -83,6 +85,8 @@ class NewPurchaseController extends Controller
         $categories = ['medicine', 'baby_care', 'health', 'others'];
         return view('layout.purchase.add_row_line')->with(['serial' => $serial, 'categories' => $categories]);
     }
+
+
 
 
 
