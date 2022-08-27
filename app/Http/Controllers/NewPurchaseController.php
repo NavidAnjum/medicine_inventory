@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class NewPurchaseController extends Controller
 {
-
-
     public function create_purchase()
     {
         $title = 'create purchase';
@@ -103,7 +101,7 @@ class NewPurchaseController extends Controller
             'transection_type' => 'purchase_order'
         ];
 
-        $transection = DB::transaction(function () use ($today_date, $request, $purchase_order_header_data, &$message, &$purchase_order_id) {
+        $transection = DB::transaction(function () use ($today_date, $request, $purchase_order_header_data) {
 
             $purchase_order_header_saving = DB::connection('mysql2')->table('purchase_order')
                 ->insertGetId($purchase_order_header_data);
